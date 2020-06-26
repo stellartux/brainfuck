@@ -1,0 +1,126 @@
+To run:
+  Start up.
+  Write "<,+.<,+.<,[.[ Brainfuck ],].>,-.>,-.>" to the console.
+  Loop.
+  Reset the interpreter.
+  Load a program.
+  If the quit flag is set, break.
+  Execute the program.
+  Write the output to the console.
+  Repeat.
+  Shut down.
+
+A program is a string.
+The brainfuck token set is "<>+-,.[]".
+The full-stop byte is a byte equal to 46.
+
+The cell pointer is a pointer to a byte.
+The memory is a buffer.
+The output is a string.
+The quit flag is a flag.
+
+To reset the interpreter:
+  Put 0 in a byte.
+  Fill the memory with the byte given 30000.
+  Put the memory's first in the cell pointer.
+  Clear the output.
+
+To load a program:
+  Write "[L]oad a program from a file, enter the [I]nterpreter or [Q]uit? " to the console without advancing.
+  Read a string from the console.
+  Lowercase the string.
+  If the string starts with "q", set the quit flag; exit.
+  If the string starts with "l", load the program from a file; exit.
+  Load the program from the interpreter.
+
+To load a program from a file:
+  Write "Enter a path: " to the console without advancing.
+  Read a path from the console.
+  If the path is blank, put "" into the program; exit.
+  Extract a directory from the path.
+  If the directory is blank, put the module's directory then the path into the path.
+  If the path is not in the file system, write "File could not be found." to the console; repeat.
+  Load the path into the program.
+
+To load a program from the interpreter: 
+  Write "Enter your code: " to the console without advancing.
+  Read the program from the console.
+
+To execute a program:
+  Slap a rider on the program.
+  Loop.
+  Move the rider (brainfuck rules).
+  If the rider's token is blank, exit.
+  If the rider's token is the left-alligator byte, execute the instruction (left-alligator); repeat.
+  If the rider's token is the right-alligator byte, execute the instruction (right-alligator); repeat.
+  If the rider's token is the plus-sign byte, execute the instruction (plus-sign); repeat.
+  If the rider's token is the minus-sign byte, execute the instruction (minus-sign); repeat.
+  If the rider's token is the comma byte, execute the instruction (comma); repeat.
+  If the rider's token is the full-stop byte, execute the instruction (full-stop); repeat.
+  If the rider's token is the left-bracket byte, execute the instruction (left-bracket) given the rider; repeat.
+  If the rider's token is the right-bracket byte, execute the instruction (right-bracket) given the rider; repeat.
+  Repeat.
+
+To move a rider (brainfuck rules):
+  Position the rider's token on the rider's source.
+  If the rider's source is blank, exit.
+  Bump the rider.
+  If the rider's token is not in the brainfuck token set, repeat.  
+
+To move a rider (backwards brainfuck rules):
+  If the rider's source's first is the rider's original's first, reset the rider; exit.
+  Loop.
+  If the rider's token's first is the rider's original's first, reset the rider; exit.
+  Subtract 1 from the rider's source's first.
+  Position the rider's token on the rider's source.
+  Subtract 1 from the rider's token's first.
+  If the rider's token is not in the brainfuck token set, repeat.
+
+To reset a rider:
+  Put the rider's original's first in the rider's source's first.
+  Position the rider's token on the rider's source.
+
+\ < 	Move the pointer to the left
+To execute the instruction (left-alligator):
+  If the cell pointer is the memory's first, put the memory's last in the cell pointer; exit.
+  Subtract 1 from the cell pointer.
+
+\ > 	Move the pointer to the right
+To execute the instruction (right-alligator):
+  If the cell pointer is the memory's last, put the memory's first in the cell pointer; exit.
+  Add 1 to the cell pointer.
+
+\ + 	Increment the memory cell under the pointer
+To execute the instruction (plus-sign):
+  Add 1 to the cell pointer's target.
+
+\ -	 Decrement the memory cell under the pointer
+To execute the instruction (minus-sign):
+  Subtract 1 from the cell pointer's target.
+
+\ , 	Input a character and store it in the cell at the pointer
+To execute the instruction (comma):
+  Write "Input a character: " to the console without advancing.
+  Read a byte from the console.
+  Put the byte in the cell pointer's target.
+
+\ . 	Output the character signified by the cell at the pointer
+To execute the instruction (full-stop):
+  Append the cell pointer's target to the output. 
+
+\ [ 	Jump past the matching ] if the cell under the pointer is 0
+To execute the instruction (left-bracket) given a rider:
+  If the cell pointer's target isn't 0, exit.
+  Loop.
+  Move the rider (brainfuck rules).
+  If the rider's token isn't "]", repeat.
+
+\ ] 	Jump back to the matching [ if the cell under the pointer is nonzero
+To execute the instruction (right-bracket) given a rider:
+  If the cell pointer's target is 0, exit.
+  Put 1 in a count.
+  Loop.
+  Move the rider (backwards brainfuck rules).
+  If the rider's token is "]", add 1 to the count.
+  If the rider's token is "[", subtract 1 from the count.
+  If the count is not 0, repeat.
