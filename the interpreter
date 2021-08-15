@@ -30,10 +30,10 @@ To load a program:
   Read a string from the console.
   Lowercase the string.
   If the string starts with "q", set the quit flag; exit.
-  If the string starts with "l", load the program from a file; exit.
+  If the string starts with "l", load the program from disk; exit.
   Load the program from the interpreter.
 
-To load a program from a file:
+To load a program from disk:
   Write "Enter a path: " to the console without advancing.
   Read a path from the console.
   If the path is blank, put "" into the program; exit.
@@ -111,9 +111,12 @@ To execute the instruction (full-stop):
 \ [ 	Jump past the matching ] if the cell under the pointer is 0
 To execute the instruction (left-bracket) given a rider:
   If the cell pointer's target isn't 0, exit.
+  Put -1 in a count.
   Loop.
   Move the rider (brainfuck rules).
-  If the rider's token isn't "]", repeat.
+  If the rider's token is "]", add 1 to the count.
+  If the rider's token is "[", subtract 1 from the count.
+  If the count is not 0, repeat.
 
 \ ] 	Jump back to the matching [ if the cell under the pointer is nonzero
 To execute the instruction (right-bracket) given a rider:
